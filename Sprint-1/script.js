@@ -22,7 +22,7 @@ const audioMotion = new AudioMotionAnalyzer( container, {
 });
 
 // load audio file
-audioEl.src = '../sound/masodik-galamb.mp3';
+audioEl.src = 'sound/masodik-galamb.mp3';
 
 // callback function
 function energyMeters() {
