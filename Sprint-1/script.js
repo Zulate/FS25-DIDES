@@ -1,4 +1,9 @@
+fetch('img/Quad-visualizer.svg')
+.then(response => response.text())
+.then(data => {
+document.getElementById('quad-visualizer').innerHTML = data;
 
+});
 
 // audio source
 const audioEl = document.getElementById('audio');
@@ -47,34 +52,26 @@ function energyMeters() {
         return Math.floor(Math.random() * max);
       }
 
+        // Jetzt kannst du direkt mit JS darauf zugreifen
+        const quadsOuter = document.getElementsByClassName('quad-vis-outer');
+        for(let quadOuter of quadsOuter){
+            let randomModifier = getRandomInt(800);
+            quadOuter.setAttribute('style', 'transform: scale('+trebleEnergy * growSize / 100+');');
+            if(trebleEnergy > 0.25){
       
-    fetch('img/Quad-visualizer.svg')
-    .then(response => response.text())
-    .then(data => {
-    document.getElementById('quad-visualizer').innerHTML = data;
+                quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize / 3+') scaleX('+bassEnergy * growSize / 300+');');
     
-    // Jetzt kannst du direkt mit JS darauf zugreifen
-    const quadsOuter = document.getElementsByClassName('quad-vis-outer');
-    for(let quadOuter of quadsOuter){
-        let randomModifier = getRandomInt(800);
-        quadOuter.setAttribute('style', 'transform: scale('+trebleEnergy * growSize / 100+');');
-        if(trebleEnergy > 0.25){
-  
-            quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize / 3+') scaleX('+bassEnergy * growSize / 300+');');
-
-        }
-    }
-
-    const quadsMiddle = document.getElementsByClassName('quad-vis-middle');
-        for(let quadMiddle of quadsMiddle){
-            quadMiddle.setAttribute('fill', 'white');
-            quadMiddle.setAttribute('style', 'transform: scale('+midEnergy * growSize / 200+');');
-            if(midEnergy > 0.5){
-                quadMiddle.setAttribute('style', 'transform: scaleX('+midEnergy * growSize / 4+');');
             }
         }
-    });
-
+    
+        const quadsMiddle = document.getElementsByClassName('quad-vis-middle');
+            for(let quadMiddle of quadsMiddle){
+                quadMiddle.setAttribute('fill', 'white');
+                quadMiddle.setAttribute('style', 'transform: scale('+midEnergy * growSize / 200+');');
+                if(midEnergy > 0.5){
+                    quadMiddle.setAttribute('style', 'transform: scaleX('+midEnergy * growSize / 4+');');
+                }
+            }
 
         if(trebleEnergy > 0.28){
                 document.getElementById('birds-overlay').style.backgroundImage = 'url("img/birds.png")';
