@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIDES Sprint 1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container"></div>
+    <div id="circle-bass"></div>
+    <div id="square-mid"></div>
+    <div id="rect-high"></div>
+    <div id="quad-visualizer"></div>
+    <div id="birds-overlay"></div>
+    <div id="stairs-overlay"></div>
+    <audio id="audio" crossorigin></audio>
+    <div id="audio-controls"> 
+        <button class="control-button" id="play" onclick="document.getElementById('audio').play()">Play</button> 
+        <button class="control-button" onclick="document.getElementById('audio').pause()">Pause</button> 
+        <div id="audio-length-display"><p id="timeDisplay"></p></div>
+    </div>
+    
+    <script src="https://unpkg.com/audiomotion-analyzer/dist"></script>
+    <script src="script.js"></script>
+</body>
+</html>
