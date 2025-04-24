@@ -22,7 +22,7 @@ const audioMotion = new AudioMotionAnalyzer( container, {
 });
 
 // load audio file
-audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb.mp3";
+audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb-short.mp3";
 
 // callback function
 function energyMeters() {
@@ -52,7 +52,7 @@ function energyMeters() {
         return Math.floor(Math.random() * max);
       }
 
-        // Jetzt kannst du direkt mit JS darauf zugreifen
+        // outer Quads
         const quadsOuter = document.getElementsByClassName('quad-vis-outer');
         for(let quadOuter of quadsOuter){
             let randomModifier = getRandomInt(800);
@@ -64,6 +64,7 @@ function energyMeters() {
             }
         }
     
+        // middle Quads
         const quadsMiddle = document.getElementsByClassName('quad-vis-middle');
             for(let quadMiddle of quadsMiddle){
                 quadMiddle.setAttribute('fill', 'white');
@@ -72,6 +73,16 @@ function energyMeters() {
                     quadMiddle.setAttribute('style', 'transform: scaleX('+midEnergy * growSize / 4+');');
                 }
             }
+
+        // inner Quads
+        const quadsInner = document.getElementsByClassName('quad-vis-inner');
+        for(let quadInner of quadsInner){
+            quadInner.setAttribute('fill', 'white');
+            quadInner.setAttribute('style', 'transform: scale('+bassEnergy * growSize / 200+');');
+            if(bassEnergy > 0.7){
+                quadInner.setAttribute('style', 'transform: scaleX('+bassEnergy * growSize / 4+'); rotate:'+ bassEnergy * 360 +'deg;');
+            }
+        }
 
         if(trebleEnergy > 0.28){
                 document.getElementById('birds-overlay').style.backgroundImage = 'url("img/birds.png")';
