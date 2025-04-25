@@ -22,7 +22,7 @@ const audioMotion = new AudioMotionAnalyzer( container, {
 });
 
 // load audio file
-audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb-short.mp3";
+audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb.mp3";
 
 // callback function
 function energyMeters() {
