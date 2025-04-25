@@ -30,7 +30,7 @@ const audioMotion = new AudioMotionAnalyzer( container, {
 });
 
 // load audio file
-audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb-short.mp3";
+audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb.mp3";
 
 // play button
 document.getElementById('play').addEventListener( 'click', () => {
@@ -96,37 +96,46 @@ function energyMeters() {
         const quadsOuter = document.getElementsByClassName('quad-vis-outer');
         for(let quadOuter of quadsOuter){
             quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize / 100+'); rotate: -'+ trebleEnergy * 360 +'deg;');
-            if(trebleEnergy > 0.25){
+            if(trebleEnergy > 0.25 && timeElapsed > 50){
                 let randomNumberX = getRandomIntInclusive(-200, 400);
                 let randomNumberY = getRandomIntInclusive(-200, 400);
                 quadOuter.setAttribute('x', randomNumberX);
                 quadOuter.setAttribute('y', randomNumberY);
                 quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize+') scaleX('+bassEnergy * growSize / 2000+'); rotate: '+ trebleEnergy * 360 +'deg;');
-    
+            } else if(trebleEnergy > 0.25){
+                let randomNumberX = getRandomIntInclusive(-200, 400);
+                let randomNumberY = getRandomIntInclusive(-200, 400);
+                quadOuter.setAttribute('x', randomNumberX);
+                quadOuter.setAttribute('y', randomNumberY);
             }
         }
     
         // middle Quads
         const quadsMiddle = document.getElementsByClassName('quad-vis-middle');
             for(let quadMiddle of quadsMiddle){
-
+                quadMiddle.setAttribute('height', midEnergy * growSize / 100);
                 quadMiddle.setAttribute('fill', 'white');
-                    if(midEnergy > 0.5){
-                        quadMiddle.setAttribute('style', 'transform: scaleX('+midEnergy * growSize / 4+'); rotate: -'+ midEnergy * 360 +'deg;');
+                    if(midEnergy > 0.5 && timeElapsed> 120){
+                        let randomNumberX = getRandomIntInclusive(-800, 1000);
+                        let randomNumberY = getRandomIntInclusive(-200, 600);
+                        quadMiddle.setAttribute('x', randomNumberX);
+                        quadMiddle.setAttribute('y', randomNumberY);
+                        quadMiddle.setAttribute('style', 'transition: all 200ms ease-in-out; transform-origin: center; transform: scaleY('+midEnergy * growSize / 4+') skew('+ midEnergy * growSize +'deg);');
                     } else {
-                        quadMiddle.setAttribute('style', 'transform: scale('+midEnergy * growSize / 200+'); rotate: -'+ midEnergy * 360 +'deg;');
-                        quadMiddle.setAttribute('height', midEnergy * growSize / 100);
+                        quadMiddle.setAttribute('style', 'transform: scaleX('+midEnergy * growSize / 100+'); rotate: -'+ midEnergy * 360 +'deg;');
                     }
             }
 
         // inner Quads
         const quadsInner = document.getElementsByClassName('quad-vis-inner');
         for(let quadInner of quadsInner){
-            quadInner.setAttribute('fill', 'red');
+            quadInner.setAttribute('fill', 'white');
             if(bassEnergy > 0.6){
+                let randomNumberX = getRandomIntInclusive(-90, 325);
                 let randomNumberRotate = getRandomIntInclusive(0, 360);
                 quadInner.setAttribute('transform', 'rotate('+ randomNumberRotate +')');
                 quadInner.setAttribute('style', 'transform: scaleX(0.1) scaleY('+bassEnergy * growSize +');');
+                quadInner.setAttribute('x', randomNumberX);
             } else {
                 quadInner.setAttribute('style', 'transform: scaleX(1) scaleY('+bassEnergy * growSize / 100 +');');
             }
@@ -138,7 +147,7 @@ function energyMeters() {
                 document.getElementById('birds-overlay').style.rotate = Math.random(1)*360+'deg';
         } else {document.getElementById('birds-overlay').style.backgroundImage = 'none';}
 
-        if(bassEnergy > 0.65){
+        if(bassEnergy > 0.65 && timeElapsed> 120){
             document.getElementById('stairs-overlay').style.backgroundImage = 'url("img/stairs.png")';
                 document.getElementById('stairs-overlay').style.backgroundSize = Math.random(1)*100+100+'%';
                 document.getElementById('stairs-overlay').style.rotate = '0deg';
