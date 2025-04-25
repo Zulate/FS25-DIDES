@@ -38,7 +38,6 @@ function energyMeters() {
     const growSize = baseSize * 16;
   
     const bassEnergy = audioMotion.getEnergy('bass');
-    document.getElementById('circle-bass').style.width = bassEnergy * growSize + 'px';
     document.getElementById('circle-bass').style.height = bassEnergy * growSize + 'px';
   
     const midEnergy = audioMotion.getEnergy('mid');
@@ -56,10 +55,11 @@ function energyMeters() {
         const quadsOuter = document.getElementsByClassName('quad-vis-outer');
         for(let quadOuter of quadsOuter){
             let randomModifier = getRandomInt(800);
-            quadOuter.setAttribute('style', 'transform: scale('+trebleEnergy * growSize / 100+');');
+            quadOuter.setAttribute('style', 'transform: scale('+trebleEnergy * growSize / 100+'); rotate: -'+ trebleEnergy * 360 +'deg;');
+            quadOuter.setAttribute('height', trebleEnergy * growSize / 100);
             if(trebleEnergy > 0.25){
       
-                quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize / 3+') scaleX('+bassEnergy * growSize / 300+');');
+                quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize+') scaleX('+bassEnergy * growSize / 500+'); rotate: '+ trebleEnergy * 360 +'deg;');
     
             }
         }
@@ -68,9 +68,10 @@ function energyMeters() {
         const quadsMiddle = document.getElementsByClassName('quad-vis-middle');
             for(let quadMiddle of quadsMiddle){
                 quadMiddle.setAttribute('fill', 'white');
-                quadMiddle.setAttribute('style', 'transform: scale('+midEnergy * growSize / 200+');');
+                quadMiddle.setAttribute('style', 'transform: scale('+midEnergy * growSize / 200+'); rotate: -'+ midEnergy * 360 +'deg;');
+                quadMiddle.setAttribute('height', midEnergy * growSize / 100);
                 if(midEnergy > 0.5){
-                    quadMiddle.setAttribute('style', 'transform: scaleX('+midEnergy * growSize / 4+');');
+                    quadMiddle.setAttribute('style', 'transform: scaleX('+midEnergy * growSize / 4+'); rotate: -'+ midEnergy * 360 +'deg;');
                 }
             }
 
@@ -78,9 +79,11 @@ function energyMeters() {
         const quadsInner = document.getElementsByClassName('quad-vis-inner');
         for(let quadInner of quadsInner){
             quadInner.setAttribute('fill', 'white');
-            quadInner.setAttribute('style', 'transform: scale('+bassEnergy * growSize / 200+');');
-            if(bassEnergy > 0.7){
+            quadInner.setAttribute('width', bassEnergy * growSize / 4000);
+            if(bassEnergy < 0.7){
                 quadInner.setAttribute('style', 'transform: scaleX('+bassEnergy * growSize / 4+'); rotate:'+ bassEnergy * 360 +'deg;');
+            } else {
+                quadInner.setAttribute('style', 'transform: scaleX('+bassEnergy * growSize / 4+'); rotate: 45deg;');
             }
         }
 
