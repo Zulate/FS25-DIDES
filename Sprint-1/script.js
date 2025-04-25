@@ -5,6 +5,14 @@ document.getElementById('quad-visualizer').innerHTML = data;
 
 });
 
+var timeElapsed = 0;
+
+function getRandomIntInclusive(min, max) {
+    const minCeiled = Math.ceil(min);
+    const maxFloored = Math.floor(max);
+    return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // The maximum is inclusive and the minimum is inclusive
+  }
+
 // audio source
 const audioEl = document.getElementById('audio');
 
@@ -22,7 +30,43 @@ const audioMotion = new AudioMotionAnalyzer( container, {
 });
 
 // load audio file
-audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb.mp3";
+audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb-short.mp3";
+
+// play button
+document.getElementById('play').addEventListener( 'click', () => {
+    var audioDuration = document.getElementById('audio').duration;
+    console.log(audioDuration);
+    const timeArray = (JSON.stringify(audioDuration).split("."));
+
+      // linearly maps value from the range (a..b) to (c..d)
+    function mapRange (value, a, b, c, d) {
+        // first map value from (a..b) to (0..1)
+        value = (value - a) / (b - a);
+        // then map it from (0..1) to (c..d) and return it
+        return c + value * (d - c);
+    }
+
+    var interval = 1000; // ms
+    var expected = Date.now() + interval;
+    setTimeout(step, interval);
+    function step() {
+        var dt = Date.now() - expected; // the drift (positive for overshooting)
+        if (dt > interval) {
+            // something really bad happened. Maybe the browser (tab) was inactive?
+            // possibly special handling to avoid futile "catch up" run
+        }
+        timeElapsed += 1;
+        console.log(timeElapsed);
+
+        expected += interval;
+        setTimeout(step, Math.max(0, interval - dt)); // take into account drift
+
+        document.getElementById('audio-length-display').style.width = ((timeElapsed / audioDuration) * 100) + '%';
+        document.getElementById('timeDisplay').innerHTML = timeElapsed + ' / ' + timeArray[0];
+    }
+
+    audioEl.play();
+  });
 
 // callback function
 function energyMeters() {
@@ -47,19 +91,17 @@ function energyMeters() {
     const trebleEnergy = audioMotion.getEnergy('treble');
     document.getElementById('rect-high').style.height = trebleEnergy * growSize + 'px';
 
-    function getRandomInt(max) {
-        return Math.floor(Math.random() * max);
-      }
 
         // outer Quads
         const quadsOuter = document.getElementsByClassName('quad-vis-outer');
         for(let quadOuter of quadsOuter){
-            let randomModifier = getRandomInt(800);
-            quadOuter.setAttribute('style', 'transform: scale('+trebleEnergy * growSize / 100+'); rotate: -'+ trebleEnergy * 360 +'deg;');
-            quadOuter.setAttribute('height', trebleEnergy * growSize / 100);
+            quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize / 100+'); rotate: -'+ trebleEnergy * 360 +'deg;');
             if(trebleEnergy > 0.25){
-      
-                quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize+') scaleX('+bassEnergy * growSize / 500+'); rotate: '+ trebleEnergy * 360 +'deg;');
+                let randomNumberX = getRandomIntInclusive(-200, 400);
+                let randomNumberY = getRandomIntInclusive(-200, 400);
+                quadOuter.setAttribute('x', randomNumberX);
+                quadOuter.setAttribute('y', randomNumberY);
+                quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize+') scaleX('+bassEnergy * growSize / 2000+'); rotate: '+ trebleEnergy * 360 +'deg;');
     
             }
         }
@@ -67,23 +109,26 @@ function energyMeters() {
         // middle Quads
         const quadsMiddle = document.getElementsByClassName('quad-vis-middle');
             for(let quadMiddle of quadsMiddle){
+
                 quadMiddle.setAttribute('fill', 'white');
-                quadMiddle.setAttribute('style', 'transform: scale('+midEnergy * growSize / 200+'); rotate: -'+ midEnergy * 360 +'deg;');
-                quadMiddle.setAttribute('height', midEnergy * growSize / 100);
-                if(midEnergy > 0.5){
-                    quadMiddle.setAttribute('style', 'transform: scaleX('+midEnergy * growSize / 4+'); rotate: -'+ midEnergy * 360 +'deg;');
-                }
+                    if(midEnergy > 0.5){
+                        quadMiddle.setAttribute('style', 'transform: scaleX('+midEnergy * growSize / 4+'); rotate: -'+ midEnergy * 360 +'deg;');
+                    } else {
+                        quadMiddle.setAttribute('style', 'transform: scale('+midEnergy * growSize / 200+'); rotate: -'+ midEnergy * 360 +'deg;');
+                        quadMiddle.setAttribute('height', midEnergy * growSize / 100);
+                    }
             }
 
         // inner Quads
         const quadsInner = document.getElementsByClassName('quad-vis-inner');
         for(let quadInner of quadsInner){
-            quadInner.setAttribute('fill', 'white');
-            quadInner.setAttribute('width', bassEnergy * growSize / 4000);
-            if(bassEnergy < 0.7){
-                quadInner.setAttribute('style', 'transform: scaleX('+bassEnergy * growSize / 4+'); rotate:'+ bassEnergy * 360 +'deg;');
+            quadInner.setAttribute('fill', 'red');
+            if(bassEnergy > 0.6){
+                let randomNumberRotate = getRandomIntInclusive(0, 360);
+                quadInner.setAttribute('transform', 'rotate('+ randomNumberRotate +')');
+                quadInner.setAttribute('style', 'transform: scaleX(0.1) scaleY('+bassEnergy * growSize +');');
             } else {
-                quadInner.setAttribute('style', 'transform: scaleX('+bassEnergy * growSize / 4+'); rotate: 45deg;');
+                quadInner.setAttribute('style', 'transform: scaleX(1) scaleY('+bassEnergy * growSize / 100 +');');
             }
         }
 
@@ -100,39 +145,4 @@ function energyMeters() {
         } else {document.getElementById('stairs-overlay').style.backgroundImage = 'none';}
     } 
 
-// play button
-document.getElementById('play').addEventListener( 'click', () => {
-    var audioDuration = document.getElementById('audio').duration;
-    console.log(audioDuration);
-    const timeArray = (JSON.stringify(audioDuration).split("."));
 
-      // linearly maps value from the range (a..b) to (c..d)
-    function mapRange (value, a, b, c, d) {
-        // first map value from (a..b) to (0..1)
-        value = (value - a) / (b - a);
-        // then map it from (0..1) to (c..d) and return it
-        return c + value * (d - c);
-    }
-
-    var timeElapsed = 0;
-    var interval = 1000; // ms
-    var expected = Date.now() + interval;
-    setTimeout(step, interval);
-    function step() {
-        var dt = Date.now() - expected; // the drift (positive for overshooting)
-        if (dt > interval) {
-            // something really bad happened. Maybe the browser (tab) was inactive?
-            // possibly special handling to avoid futile "catch up" run
-        }
-        timeElapsed += 1;
-        console.log(timeElapsed);
-
-        expected += interval;
-        setTimeout(step, Math.max(0, interval - dt)); // take into account drift
-
-        document.getElementById('audio-length-display').style.width = ((timeElapsed / audioDuration) * 100) + '%';
-        document.getElementById('timeDisplay').innerHTML = timeElapsed + ' / ' + timeArray[0];
-    }
-
-    audioEl.play();
-  });
