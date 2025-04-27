@@ -104,6 +104,13 @@ function energyMeters() {
         document.getElementById('circle-bass').style.display = 'block';
         document.getElementById('square-mid').style.display = 'block';
         document.getElementById('rect-high').style.display = 'block';
+    } else if(timeElapsed <= 310 && timeElapsed >= 310){
+        document.getElementById('pigeon').style.backgroundSize = midEnergy * growSize / 2 + '%';
+        document.getElementById('pigeon').style.display = 'block';
+        document.getElementById('quad-visualizer').style.display = 'none';
+        document.getElementById('circle-bass').style.display = 'block';
+        document.getElementById('square-mid').style.display = 'block';
+        document.getElementById('rect-high').style.display = 'block';
     }
     else {
         document.getElementById('quad-visualizer').style.display = 'block';
