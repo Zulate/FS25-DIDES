@@ -2,7 +2,10 @@
 rect{transform-box: fill-box; transform-origin: center center;}
 </style>
 <svg viewBox="-835 -330 1920 1080" fill="black" xmlns="http://www.w3.org/2000/svg">
-
+<filter id="blur">
+    <feGaussianBlur stdDeviation="3.5" edgeMode="duplicate" />
+    <feDisplacementMap scale="30" yChannelSelector="G" in2="result1" result="result3" xChannelSelector="R" in="SourceGraphic"/>
+  </filter>
 
 
 <rect width="10" height="10" fill="white" class="quad-vis-outer"/>

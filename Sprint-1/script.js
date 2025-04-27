@@ -97,9 +97,13 @@ function energyMeters() {
         document.getElementById('square-mid').style.display = 'block';
         document.getElementById('rect-high').style.display = 'block';
         document.getElementById('pigeon').style.display = 'none';
-    } else if(timeElapsed >= 180 && timeElapsed <= 180){
+    } else if(timeElapsed <= 180 && timeElapsed >= 180){
+        document.getElementById('pigeon').style.backgroundSize = midEnergy * growSize / 2 + '%';
         document.getElementById('pigeon').style.display = 'block';
         document.getElementById('quad-visualizer').style.display = 'none';
+        document.getElementById('circle-bass').style.display = 'block';
+        document.getElementById('square-mid').style.display = 'block';
+        document.getElementById('rect-high').style.display = 'block';
     }
     else {
         document.getElementById('quad-visualizer').style.display = 'block';
@@ -133,7 +137,9 @@ function energyMeters() {
         const quadsMiddle = document.getElementsByClassName('quad-vis-middle');
             for(let quadMiddle of quadsMiddle){
                 quadMiddle.setAttribute('height', midEnergy * growSize / 100);
-                quadMiddle.setAttribute('fill', 'white');
+                quadMiddle.setAttribute('fill', 'none');
+                quadMiddle.setAttribute('stroke', 'white');
+                quadMiddle.setAttribute('stroke-width', '2px');
                     if(midEnergy > 0.5 && timeElapsed> 120){
                         let randomNumberX = getRandomIntInclusive(-800, 1000);
                         let randomNumberY = getRandomIntInclusive(-200, 600);
@@ -156,7 +162,7 @@ function energyMeters() {
                 quadInner.setAttribute('style', 'transform: scaleX(0.1) scaleY('+bassEnergy * growSize +');');
                 quadInner.setAttribute('x', randomNumberX);
             } else {
-                quadInner.setAttribute('style', 'transform: scaleX(1) scaleY('+bassEnergy * growSize / 100 +');');
+                quadInner.setAttribute('style', 'transform: scaleX(1) scaleY('+bassEnergy * growSize / 100 +'); filter: blur(10px);');
             }
         }
 
