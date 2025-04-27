@@ -91,18 +91,36 @@ function energyMeters() {
     const trebleEnergy = audioMotion.getEnergy('treble');
     document.getElementById('rect-high').style.height = trebleEnergy * growSize + 'px';
 
+    if(timeElapsed >= 0 && timeElapsed < 40){
+        document.getElementById('quad-visualizer').style.display = 'none';
+        document.getElementById('circle-bass').style.display = 'block';
+        document.getElementById('square-mid').style.display = 'block';
+        document.getElementById('rect-high').style.display = 'block';
+        document.getElementById('pigeon').style.display = 'none';
+    } else if(timeElapsed >= 180 && timeElapsed <= 180){
+        document.getElementById('pigeon').style.display = 'block';
+        document.getElementById('quad-visualizer').style.display = 'none';
+    }
+    else {
+        document.getElementById('quad-visualizer').style.display = 'block';
+        document.getElementById('pigeon').style.display = 'none';
+        document.getElementById('quad-visualizer').style.display = 'block';
+        document.getElementById('circle-bass').style.display = 'none';
+        document.getElementById('square-mid').style.display = 'none';
+        document.getElementById('rect-high').style.display = 'none';
+    }
 
         // outer Quads
         const quadsOuter = document.getElementsByClassName('quad-vis-outer');
         for(let quadOuter of quadsOuter){
             quadOuter.setAttribute('height', trebleEnergy * growSize / 100);
-            quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize / 100+'); rotate: -'+ trebleEnergy * 360 +'deg;');
+            quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize / 100+'); rotate: -'+ trebleEnergy * 360 +'deg;transition: all 25ms ease-in-out;');
             if(trebleEnergy > 0.25 && timeElapsed > 90){
                 let randomNumberX = getRandomIntInclusive(-200, 400);
                 let randomNumberY = getRandomIntInclusive(-110, 300);
                 quadOuter.setAttribute('x', randomNumberX);
                 quadOuter.setAttribute('y', randomNumberY);
-                quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize+') scaleX('+bassEnergy * growSize / 2000+'); rotate: '+ trebleEnergy * 360 +'deg;');
+                quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize+') scaleX('+bassEnergy * growSize / 2000+'); rotate: '+ trebleEnergy * 360 +'deg;transition: all 25ms ease-in-out;');
             } else if(trebleEnergy > 0.25){
                 let randomNumberX = getRandomIntInclusive(-200, 400);
                 let randomNumberY = getRandomIntInclusive(-200, 400);
