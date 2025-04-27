@@ -125,13 +125,13 @@ function energyMeters() {
         const quadsOuter = document.getElementsByClassName('quad-vis-outer');
         for(let quadOuter of quadsOuter){
             quadOuter.setAttribute('height', trebleEnergy * growSize / 100);
-            quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize / 100+'); rotate: -'+ trebleEnergy * 360 +'deg;transition: all 25ms ease-in-out;');
+            quadOuter.setAttribute('style', 'transition: all 25ms ease-in-out;transform: scaleY('+trebleEnergy * growSize / 100+'); rotate: -'+ trebleEnergy * 360 +'deg;');
             if(trebleEnergy > 0.25 && timeElapsed > 90){
                 let randomNumberX = getRandomIntInclusive(-200, 400);
                 let randomNumberY = getRandomIntInclusive(-110, 300);
                 quadOuter.setAttribute('x', randomNumberX);
                 quadOuter.setAttribute('y', randomNumberY);
-                quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize+') scaleX('+bassEnergy * growSize / 2000+'); rotate: '+ trebleEnergy * 360 +'deg;transition: all 25ms ease-in-out;');
+                quadOuter.setAttribute('style', 'transition: all 25ms ease-in-out;transform: scaleY('+trebleEnergy * growSize+') scaleX('+bassEnergy * growSize / 2000+'); rotate: '+ trebleEnergy * 360 +'deg;');
             } else if(trebleEnergy > 0.25){
                 let randomNumberX = getRandomIntInclusive(-200, 400);
                 let randomNumberY = getRandomIntInclusive(-200, 400);
@@ -173,7 +173,7 @@ function energyMeters() {
             }
         }
 
-        if(trebleEnergy > 0.28){
+        if(trebleEnergy > 0.35){
                 document.getElementById('birds-overlay').style.backgroundImage = 'url("img/birds.png")';
                 document.getElementById('birds-overlay').style.backgroundSize = Math.random(1)*100+60+'%';
                 document.getElementById('birds-overlay').style.rotate = Math.random(1)*360+'deg';
