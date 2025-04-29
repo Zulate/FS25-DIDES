@@ -1,7 +1,12 @@
+@font-face {
+    font-family: PixelByzantine;
+    src: url(fonts/PixelByzantine.ttf);
+}
+
 *{
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: PixelByzantine, sans-serif;
 }
 
 body{
@@ -18,6 +23,7 @@ body{
     position: absolute;
     display: flex;
     flex-wrap: nowrap;
+    justify-content: space-between;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -27,15 +33,13 @@ body{
     fill: none;
 }
 
-#audio-length-display{
-    position: relative;
-    width: 0%;
-    height: 50px;
-    background-color: white;
-}
-
 .control-button{
     width: 100px;
+    height: 100%;
+    background-color: black;
+    border: 2px solid white;
+    color: white;
+    font-size: 2vw;
 }
 
 #circle-bass{
@@ -133,4 +137,11 @@ body{
     background-position: center;
     mix-blend-mode:difference;
     background-repeat: repeat-y;
+}
+
+.description-text{
+    height: max-content;
+    width: max-content;
+    color: white;
+    font-size: 3vw;
 }

@@ -34,6 +34,7 @@ audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb
 
 // play button
 document.getElementById('play').addEventListener( 'click', () => {
+    if(timeElapsed <= 0){
     var audioDuration = document.getElementById('audio').duration;
     console.log(audioDuration);
     const timeArray = (JSON.stringify(audioDuration).split("."));
@@ -56,16 +57,14 @@ document.getElementById('play').addEventListener( 'click', () => {
             // possibly special handling to avoid futile "catch up" run
         }
         timeElapsed += 1;
-        console.log(timeElapsed);
-
         expected += interval;
         setTimeout(step, Math.max(0, interval - dt)); // take into account drift
-
-        document.getElementById('audio-length-display').style.width = ((timeElapsed / audioDuration) * 100) + '%';
-        document.getElementById('timeDisplay').innerHTML = timeElapsed + ' / ' + timeArray[0];
     }
 
     audioEl.play();
+    } else {
+        console.log('Visualizer wurde bereits gestartet.');
+    }
   });
 
 // callback function
@@ -173,7 +172,7 @@ function energyMeters() {
             }
         }
 
-        if(trebleEnergy > 0.35){
+        if(trebleEnergy > 0.3){
                 document.getElementById('birds-overlay').style.backgroundImage = 'url("img/birds.png")';
                 document.getElementById('birds-overlay').style.backgroundSize = Math.random(1)*100+60+'%';
                 document.getElementById('birds-overlay').style.rotate = Math.random(1)*360+'deg';
