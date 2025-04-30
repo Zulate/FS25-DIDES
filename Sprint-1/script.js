@@ -34,6 +34,8 @@ audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb
 
 // play button
 document.getElementById('play').addEventListener( 'click', () => {
+    document.getElementById('audio-controls').style.bottom = '0';
+    document.getElementById('audio-controls').style.justifyContent = 'space-between';
     if(timeElapsed <= 0){
     var audioDuration = document.getElementById('audio').duration;
     console.log(audioDuration);
@@ -77,7 +79,7 @@ function energyMeters() {
           centerY    = canvas.height >> 1;
   
     // bass, midrange and treble meters
-  
+
     const growSize = baseSize * 16;
   
     const bassEnergy = audioMotion.getEnergy('bass');
@@ -123,37 +125,46 @@ function energyMeters() {
         // outer Quads
         const quadsOuter = document.getElementsByClassName('quad-vis-outer');
         for(let quadOuter of quadsOuter){
-            quadOuter.setAttribute('height', trebleEnergy * growSize / 100);
-            quadOuter.setAttribute('style', 'transition: all 25ms ease-in-out;transform: scaleY('+trebleEnergy * growSize / 100+'); rotate: -'+ trebleEnergy * 360 +'deg;');
-            if(trebleEnergy > 0.25 && timeElapsed > 90){
-                let randomNumberX = getRandomIntInclusive(-200, 400);
-                let randomNumberY = getRandomIntInclusive(-110, 300);
+            quadOuter.setAttribute('height', trebleEnergy * growSize / 200);
+            quadOuter.setAttribute('width', '5');
+            quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize / 100+'); rotate: -'+ trebleEnergy * 360 +'deg;');
+            let randomNumberX = getRandomIntInclusive(-120, 400);
+                let randomNumberY = getRandomIntInclusive(50, 250);
                 quadOuter.setAttribute('x', randomNumberX);
                 quadOuter.setAttribute('y', randomNumberY);
-                quadOuter.setAttribute('style', 'transition: all 25ms ease-in-out;transform: scaleY('+trebleEnergy * growSize+') scaleX('+bassEnergy * growSize / 2000+'); rotate: '+ trebleEnergy * 360 +'deg;');
+            if(timeElapsed <= 120){
+                quadOuter.setAttribute('display', 'none');
+            }
+            
+            else if(trebleEnergy > 0.25 && timeElapsed > 120){
+                
+                quadOuter.setAttribute('display', 'inline');
+                quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy* 2 * growSize+') scaleX('+bassEnergy * growSize / 2000+'); rotate: '+ trebleEnergy * 360 +'deg;');
             } else if(trebleEnergy > 0.25){
-                let randomNumberX = getRandomIntInclusive(-200, 400);
-                let randomNumberY = getRandomIntInclusive(-200, 400);
-                quadOuter.setAttribute('x', randomNumberX);
-                quadOuter.setAttribute('y', randomNumberY);
+                quadOuter.setAttribute('display', 'inline');
+                quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize+') scaleX('+bassEnergy * growSize / 2000+'); rotate: '+ trebleEnergy * 360 +'deg;');
+
+            } else {
+                quadOuter.setAttribute('display', 'inline');
+                quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize / 100+') scaleX('+bassEnergy * growSize / 2000+'); rotate: '+ trebleEnergy * 360 +'deg;');
             }
         }
     
         // middle Quads
         const quadsMiddle = document.getElementsByClassName('quad-vis-middle');
             for(let quadMiddle of quadsMiddle){
-                quadMiddle.setAttribute('height', midEnergy * growSize / 100);
+                quadMiddle.setAttribute('height', bassEnergy / 16 * growSize);
                 quadMiddle.setAttribute('fill', 'none');
                 quadMiddle.setAttribute('stroke', 'white');
-                quadMiddle.setAttribute('stroke-width', '2px');
-                    if(midEnergy > 0.5 && timeElapsed> 120){
+                quadMiddle.setAttribute('stroke-width', '1px');
+                    if(midEnergy > 0.45 && timeElapsed> 120){
                         let randomNumberX = getRandomIntInclusive(-800, 1000);
-                        let randomNumberY = getRandomIntInclusive(-200, 600);
+                        let randomNumberY = getRandomIntInclusive(-200, 525);
                         quadMiddle.setAttribute('x', randomNumberX);
                         quadMiddle.setAttribute('y', randomNumberY);
-                        quadMiddle.setAttribute('style', 'transition: all 200ms ease-in-out; transform-origin: center; transform: scaleY('+midEnergy * growSize / 4+') skew('+ midEnergy * growSize +'deg);');
+                        quadMiddle.setAttribute('style', 'transform-origin: center; transform: scaleX('+midEnergy * growSize / 100+') skew('+ midEnergy * growSize +'deg);');
                     } else {
-                        quadMiddle.setAttribute('style', 'transform: scaleX('+midEnergy * growSize / 100+'); rotate: -'+ midEnergy * 360 +'deg;');
+                        quadMiddle.setAttribute('style', 'transform: scaleX('+midEnergy * growSize / 400+') skew('+ midEnergy * growSize / 2 +'deg); rotate: -'+ midEnergy * 360 +'deg;');
                     }
             }
 
@@ -172,17 +183,17 @@ function energyMeters() {
             }
         }
 
-        if(trebleEnergy > 0.3){
-                document.getElementById('birds-overlay').style.backgroundImage = 'url("img/birds.png")';
+        if(trebleEnergy >= 0.28){
+                document.getElementById('birds-overlay').style.display = 'block';
                 document.getElementById('birds-overlay').style.backgroundSize = Math.random(1)*100+60+'%';
                 document.getElementById('birds-overlay').style.rotate = Math.random(1)*360+'deg';
-        } else {document.getElementById('birds-overlay').style.backgroundImage = 'none';}
+        } else {document.getElementById('birds-overlay').style.display = 'none';}
 
-        if(bassEnergy > 0.65 && timeElapsed> 120){
-            document.getElementById('stairs-overlay').style.backgroundImage = 'url("img/stairs.png")';
+        if(bassEnergy > 0.65 && timeElapsed > 120){
+            document.getElementById('stairs-overlay').style.display = 'block';
                 document.getElementById('stairs-overlay').style.backgroundSize = Math.random(1)*100+100+'%';
                 document.getElementById('stairs-overlay').style.rotate = '0deg';
-        } else {document.getElementById('stairs-overlay').style.backgroundImage = 'none';}
+        } else {document.getElementById('stairs-overlay').style.display = 'none';}
     } 
 
 
