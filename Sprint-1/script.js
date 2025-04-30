@@ -5,7 +5,7 @@ document.getElementById('quad-visualizer').innerHTML = data;
 
 });
 
-var timeElapsed = 120;
+var timeElapsed = 0;
 
 function getRandomIntInclusive(min, max) {
     const minCeiled = Math.ceil(min);
@@ -30,13 +30,13 @@ const audioMotion = new AudioMotionAnalyzer( container, {
 });
 
 // load audio file
-audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb-short.mp3";
+audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb.mp3";
 
 // play button
 document.getElementById('play').addEventListener( 'click', () => {
     document.getElementById('audio-controls').style.bottom = '0';
     document.getElementById('audio-controls').style.justifyContent = 'space-between';
-    if(timeElapsed){
+    if(timeElapsed <= 0){
     var audioDuration = document.getElementById('audio').duration;
     console.log(audioDuration);
     const timeArray = (JSON.stringify(audioDuration).split("."));
