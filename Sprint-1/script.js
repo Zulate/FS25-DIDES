@@ -5,7 +5,7 @@ document.getElementById('quad-visualizer').innerHTML = data;
 
 });
 
-var timeElapsed = 0;
+var timeElapsed = 120;
 
 function getRandomIntInclusive(min, max) {
     const minCeiled = Math.ceil(min);
@@ -30,13 +30,13 @@ const audioMotion = new AudioMotionAnalyzer( container, {
 });
 
 // load audio file
-audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb.mp3";
+audioEl.src = "https://zulate.github.io/FS25-DIDES/Sprint-1/sound/masodik-galamb-short.mp3";
 
 // play button
 document.getElementById('play').addEventListener( 'click', () => {
     document.getElementById('audio-controls').style.bottom = '0';
     document.getElementById('audio-controls').style.justifyContent = 'space-between';
-    if(timeElapsed <= 0){
+    if(timeElapsed){
     var audioDuration = document.getElementById('audio').duration;
     console.log(audioDuration);
     const timeArray = (JSON.stringify(audioDuration).split("."));
@@ -83,13 +83,16 @@ function energyMeters() {
     const growSize = baseSize * 16;
   
     const bassEnergy = audioMotion.getEnergy('bass');
-    document.getElementById('circle-bass').style.height = bassEnergy * growSize + 'px';
-  
     const midEnergy = audioMotion.getEnergy('mid');
+    const trebleEnergy = audioMotion.getEnergy('treble');
+
+    document.getElementById('circle-bass').style.height = bassEnergy * growSize + 'px';
+    document.getElementById('circle-bass').style.boxShadow = 'inset 0px 0px 0px 2vh rgba(255, 255, 255, '+bassEnergy*4+')';
+    
+    document.getElementById('square-mid').style.boxShadow = 'inset 0px 0px 0px 2vh rgba(255, 255, 255, '+midEnergy*4+')';
     document.getElementById('square-mid').style.height = midEnergy * growSize + 'px';
 
-
-    const trebleEnergy = audioMotion.getEnergy('treble');
+    document.getElementById('rect-high').style.boxShadow = 'inset 0px 0px 0px 2vh rgba(255, 255, 255, '+trebleEnergy*4+')';
     document.getElementById('rect-high').style.height = trebleEnergy * growSize + 'px';
 
     if(timeElapsed >= 0 && timeElapsed < 40){
@@ -125,6 +128,7 @@ function energyMeters() {
         // outer Quads
         const quadsOuter = document.getElementsByClassName('quad-vis-outer');
         for(let quadOuter of quadsOuter){
+            quadOuter.setAttribute('fill', 'rgba(255, 255, 255, '+trebleEnergy * 1.5+')');
             quadOuter.setAttribute('height', trebleEnergy * growSize / 200);
             quadOuter.setAttribute('width', '5');
             quadOuter.setAttribute('style', 'transform: scaleY('+trebleEnergy * growSize / 100+'); rotate: -'+ trebleEnergy * 360 +'deg;');
@@ -155,7 +159,7 @@ function energyMeters() {
             for(let quadMiddle of quadsMiddle){
                 quadMiddle.setAttribute('height', bassEnergy / 16 * growSize);
                 quadMiddle.setAttribute('fill', 'none');
-                quadMiddle.setAttribute('stroke', 'white');
+                quadMiddle.setAttribute('stroke', 'rgba(255, 255, 255, '+midEnergy*1.5+')');
                 quadMiddle.setAttribute('stroke-width', '1px');
                     if(midEnergy > 0.45 && timeElapsed> 120){
                         let randomNumberX = getRandomIntInclusive(-800, 1000);
@@ -171,7 +175,7 @@ function energyMeters() {
         // inner Quads
         const quadsInner = document.getElementsByClassName('quad-vis-inner');
         for(let quadInner of quadsInner){
-            quadInner.setAttribute('fill', 'white');
+            quadInner.setAttribute('fill', 'rgba( '+bassEnergy*300+', 0, 0, '+bassEnergy*1.5+')');
             if(bassEnergy > 0.6){
                 let randomNumberX = getRandomIntInclusive(-90, 325);
                 let randomNumberRotate = getRandomIntInclusive(0, 360);
@@ -187,12 +191,14 @@ function energyMeters() {
                 document.getElementById('birds-overlay').style.display = 'block';
                 document.getElementById('birds-overlay').style.backgroundSize = Math.random(1)*100+60+'%';
                 document.getElementById('birds-overlay').style.rotate = Math.random(1)*360+'deg';
+                document.getElementById('birds-overlay').style.opacity = trebleEnergy*1.5;
         } else {document.getElementById('birds-overlay').style.display = 'none';}
 
         if(bassEnergy > 0.65 && timeElapsed > 120){
             document.getElementById('stairs-overlay').style.display = 'block';
                 document.getElementById('stairs-overlay').style.backgroundSize = Math.random(1)*100+100+'%';
                 document.getElementById('stairs-overlay').style.rotate = '0deg';
+                document.getElementById('stairs-overlay').style.opacity = bassEnergy;
         } else {document.getElementById('stairs-overlay').style.display = 'none';}
     } 
 
