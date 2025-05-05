@@ -1,0 +1,153 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#container{
+    display: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(50%, 0%);
+    display: grid;
+    grid-template-columns: 15vw 15vw 20vw;
+    width: 50vw;
+    height: 100vh;
+}
+
+#item1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 100, 28, 0.4);
+    flex-wrap: nowrap;
+}
+
+#item2{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    background-color: rgba(0, 45, 100, 0.4);
+    flex-wrap: wrap;
+}
+
+#item3{
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    background-color: rgba(93, 0, 100, 0.4);
+    flex-wrap: wrap;
+}
+
+#salz{
+    box-shadow: 0px 350px 50px 20px rgba(0, 0, 0, 0.4);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#salz:hover{
+    transform: skewX(360deg);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#top{
+    z-index: 3;
+    width: 200px;
+    height: 100px;
+    background-color: lightblue;
+    border: 1px solid black;
+    border-radius: 100px / 50px;
+    margin-top: -450px;
+}
+
+#salz:hover #top, #salz:hover #middle, #salz:hover #bottom{
+    background-color: red;
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#middle{
+    z-index: 2;
+    height: 400px;
+    width: 200px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    background-color: white;
+    margin-top: -450px;
+}
+
+#bottom{
+    width: 200px;
+    height: 100px;
+    background-color: white;
+    border-radius: 100px / 50px;
+    border: 1px solid black;
+    margin-top:200px;
+}
+
+#kugel-green{
+    width: 115px;
+    height: 115px;
+    border-radius: 100%;
+    background-color: green;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: -500px;
+    box-shadow: 15px 50px 50px -5px rgba(0, 0, 0, 0.4);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#kugel-green:hover{
+    transform: skewY(360deg);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#triangle-red{  
+    width: 0;
+    height: 0;
+    box-shadow: 15px 50px 50px -5px rgba(0, 0, 0, 0.4);
+    background: transparent;
+    border-left: 75px solid transparent;
+    border-right: 75px solid transparent;
+    border-bottom: 125px solid red;
+    margin-left: 50px;
+    margin-right: 100px;
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#triangle-red:hover{
+    transform: skewY(360deg);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#book{
+    margin-top: 100px;
+    background-color: rgba(0,0,0,0.6);
+    width: 300px;
+    height: 500px;
+    box-shadow: 15px 50px 50px -5px rgba(0, 0, 0, 0.4);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#book:hover{
+    transform: skewY(360deg);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#phone{
+    background-color: rgba(0,0,0,0.9);
+    width: 300px;
+    height: 100px;
+    box-shadow: 15px 50px 50px -5px rgba(0, 0, 0, 0.4);
+    transform: skewY(10deg);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#phone:hover{
+    transform: skewY(360deg);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
